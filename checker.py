@@ -1,8 +1,14 @@
 import time
+import os
 from selenium import webdriver
 
 print("Opening browser")
-driver = webdriver.Chrome()
+if 'HEROKU' in os.environ:
+    chrome_options = Options()
+    chrome_options.binary_location = GOOGLE_CHROME_BIN
+    driver=webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+else:
+    driver = webdriver.Chrome()
 print("Opening Artemis' Umbrella")
 driver.get("https://info.artemisumbrella.com")
 print("Looking for 'Artemi' to see if the page loaded correctly")
