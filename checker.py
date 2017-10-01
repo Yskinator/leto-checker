@@ -2,6 +2,28 @@ import time
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import psycopg2
+import urlparse
+
+print("Attempting to connect to database")
+urlparse.uses_netloc.append("postgres")
+url = urlparse.urlparse(os.environ["DATABASE_URL"])
+print(url)
+conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
+print("Opened database successfully")
+cur = conn.cursor()
+print("Executing query")
+cur.execute("SELECT worked FROM previous_status WHERE id=1")
+rows = cur.fetchall()
+print("Result:" + rows)
+
+
 
 print("Opening browser")
 if 'HEROKU' in os.environ:
