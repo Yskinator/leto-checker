@@ -20,7 +20,7 @@ cur.execute("CREATE TABLE previous_status(id INT PRIMARY KEY NOT NULL, worked BO
 print("Inserting data")
 cur.execute("INSERT INTO previous_status (id, worked) VALUES (1, TRUE);")
 print("Querying for data")
-cur.execute("SELECT * FROM previous_status;)
+cur.execute("SELECT * FROM previous_status;")
 print(cur.fetchone())
 
 print("Making changes permanent")
