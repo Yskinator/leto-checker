@@ -18,11 +18,12 @@ conn = psycopg2.connect(
 )
 print("Opened database successfully")
 cur = conn.cursor()
-print("Executing query")
+print("Checking previous status")
 cur.execute("SELECT worked FROM previous_status WHERE id=1")
-rows = cur.fetchall()
-print("Result:" + rows)
-
+print("Previous status: " + cur.fetchone()) 
+print("Closing connection")
+cur.close()
+conn.close()
 
 
 print("Opening browser")
