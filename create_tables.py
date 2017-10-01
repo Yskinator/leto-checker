@@ -1,5 +1,6 @@
 import psycopg2
 import urlparse
+import os
 
 print("Attempting to connect to database")
 urlparse.uses_netloc.append("postgres")
