@@ -1,6 +1,7 @@
 import time
 import os
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 print("Opening browser")
 if 'HEROKU' in os.environ:
