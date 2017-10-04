@@ -6,24 +6,24 @@ import psycopg2
 import urlparse
 import smtplib
  
-def sendemail(from_addr, to_addr_list,
+def sendemail(from_addr, to_addr,
               subject, message,
               login, password,
               smtpserver='smtp.gmail.com:587'):
     header  = 'From: %s' % from_addr +"\n"
-    header += 'To: %s' % ','.join(to_addr_list) +"\n"
+    header += 'To: %s' % to_addr +"\n"
     header += 'Subject: %s' % subject +"\n"
     message = header + message
  
     server = smtplib.SMTP(smtpserver)
     server.starttls()
     server.login(login,password)
-    problems = server.sendmail(from_addr, to_addr_list, message)
+    problems = server.sendmail(from_addr, to_addr, message)
     server.quit()
 
 
 problems = sendemail(from_addr    = os.environ["GMAIL_USERNAME"], 
-                    to_addr_list = os.environ["EMAIL_RECEIVER"],
+                    to_addr = os.environ["EMAIL_RECEIVER"],
                     subject      = 'Mail from python', 
                     message      = 'A thing has happened. Do another thing.', 
                     login        = os.environ["GMAIL_USERNAME"], 
