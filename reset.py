@@ -17,6 +17,7 @@ print("Opened database successfully")
 cur = conn.cursor()
 print("Inserting data")
 cur.execute("UPDATE previous_status SET worked=TRUE WHERE id = 1;")
+cur.execute("UPDATE previous_status SET since_last_full_test = 6 WHERE id = 1;")
 print("Making changes permanent")
 conn.commit()
 
