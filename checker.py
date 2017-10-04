@@ -123,15 +123,15 @@ def check_status():
         driver.get("https://my.textmagic.com/online/messages/sent")
 
         print("Typing in username")
-        element.find_by_id("_username")
+        element = driver.find_element_by_id("_username")
         element.send_keys(os.environ["TEXTMAGIC_USERNAME"])
 
         print("Typing in password")
-        element.find_by_id("_password")
+        element = driver.find_element_by_id("_password")
         element.send_keys(os.environ["TEXTMAGIC_PASSWORD"])
 
         print("Clicking log in button")
-        element.find_by_id("logInBtn")
+        element = driver.find_element_by_id("logInBtn")
         element.click()
 
         wait_for(has_gone_stale, element)
