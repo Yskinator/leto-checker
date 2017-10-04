@@ -215,7 +215,7 @@ def reset_test_counter():
     print("Opened database successfully")
     cur = conn.cursor()
     print("Setting counter to 0")
-    cur.execute("UPDATE previous_status SET since_last_full_test = 0 FROM previous_status WHERE id=1;")
+    cur.execute("UPDATE previous_status SET since_last_full_test = 0 WHERE id=1;")
     print("Committing changes")
     conn.commit
 
