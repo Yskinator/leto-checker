@@ -139,7 +139,7 @@ def check_status():
 
         print("Looking for our alert")
         
-        if (nick in driver.page_source):
+        if (nick.upper() in driver.page_source):
             print("Alert has been received.")
         else:
             print("Alert has not been received.")
