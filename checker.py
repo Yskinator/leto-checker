@@ -196,7 +196,7 @@ def increment_test_counter():
     count = int(cur.fetchone()[0])
     print("Increasing counter by one")
     count = count + 1
-    cur.execute("UPDATE previous_status SET since_last_full_test = "+str(count)+" FROM previous_status WHERE id=1;")
+    cur.execute("UPDATE previous_status SET since_last_full_test = "+str(count)+" WHERE id=1;")
     print("Committing changes")
     conn.commit
     return count
