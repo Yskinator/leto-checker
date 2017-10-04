@@ -71,6 +71,8 @@ def check_status():
     else:
         print("Page did not load correctly.")
         check_prev_status()
+        print("Closing browser")
+        driver.quit()
         return
 
     nick = "Automated test " + str("{:%Y-%m-%d %H:%M:%S}".format(datetime.datetime.now()))
@@ -98,6 +100,8 @@ def check_status():
     else:
         print("Page did not load correctly.")
         check_prev_status()
+        print("Closing browser")
+        driver.quit()
         return
 
     print("Pressing the I'm OK button to avoid sending an alert")
