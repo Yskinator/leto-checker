@@ -16,9 +16,9 @@ conn = psycopg2.connect(
 print("Opened database successfully")
 cur = conn.cursor()
 print("Creating table")
-cur.execute("CREATE TABLE previous_status(id INT PRIMARY KEY NOT NULL, worked BOOL NOT NULL);")
+cur.execute("CREATE TABLE previous_status(id INT PRIMARY KEY NOT NULL, worked BOOL NOT NULL, since_last_full_test INT NOT NULL))"
 print("Inserting data")
-cur.execute("INSERT INTO previous_status (id, worked) VALUES (1, TRUE);")
+cur.execute("INSERT INTO previous_status (id, worked, since_last_full_test) VALUES (1, TRUE, 6);")
 print("Querying for data")
 cur.execute("SELECT * FROM previous_status;")
 print(cur.fetchone())
