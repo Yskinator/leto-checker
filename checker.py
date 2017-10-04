@@ -34,6 +34,7 @@ def send_alert():
 
 #For waiting page to load
 def wait_for(condition_function, element):
+    time.sleep(2)
     start_time = time.time()
     while time.time() < start_time + 3:
         if condition_function(element):
