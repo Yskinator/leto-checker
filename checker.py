@@ -54,6 +54,8 @@ def has_gone_stale(element):
 
 
 def check_status():
+    print("Incrementing test counter")
+    count = increment_test_counter()
     print("Opening browser")
     if 'HEROKU' in os.environ:
         chrome_options = Options()
@@ -104,9 +106,45 @@ def check_status():
         driver.quit()
         return
 
-    print("Pressing the I'm OK button to avoid sending an alert")
-    element = driver.find_element_by_class_name("submitbutton")
-    element.click()
+    if count < int(os.environ["FULL_TEST_INTERVAL"]):
+        print("Pressing the I'm OK button to avoid sending an alert")
+        element = driver.find_element_by_class_name("submitbutton")
+        element.click()
+    else:
+        reset_test_counter()
+        time.sleep(300)
+	print("An alert has been sent. Clicking the I'm OK button")
+        element = driver.find_element_by_class_name("submitbutton")
+        element.click()
+
+        print("Navigating to textmagic")
+        driver.get("https://my.textmagic.com/online/messages/sent")
+
+        print("Typing in username")
+        element.find_by_id("_username")
+        element.send_keys(os.environ["TEXTMAGIC_USERNAME"])
+
+        print("Typing in password")
+        element.find_by_id("_password")
+        element.send_keys(os.environ["TEXTMAGIC_PASSWORD"])
+
+        print("Clicking log in button")
+        element.find_by_id("logInBtn")
+        element.click()
+
+        wait_for(has_gone_stale, element)
+
+        print("Looking for our alert")
+        
+        if (nick in driver.page_source):
+            print("Alert has been received.")
+        else:
+            print("Alert has not been received.")
+            check_prev_status()
+            print("Closing browser")
+            driver.quit()
+            return
+
     
     print("Closing browser")
     driver.quit()
@@ -139,6 +177,47 @@ def check_prev_status():
     print("Closing connection")
     cur.close()
     conn.close()
+
+def increment_test_counter():
+    print("Attempting to connect to database")
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+       port=url.port
+    )
+    print("Opened database successfully")
+    cur = conn.cursor()
+    print("Fetching previous count")
+    cur.execute("SELECT since_last_full_test FROM previous_status WHERE id=1")
+    count = int(cur.fetchone())
+    print("Increasing counter by one")
+    count = count + 1
+    cur.execute("UPDATE previous_status SET since_last_full_test = "+str(count)+" FROM previous_status WHERE id=1;")
+    print("Committing changes")
+    conn.commit
+    return count
+
+def reset_test_counter():
+    print("Attempting to connect to database")
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(os.environ["DATABASE_URL"])
+    conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+       port=url.port
+    )
+    print("Opened database successfully")
+    cur = conn.cursor()
+    print("Setting counter to 0")
+    cur.execute("UPDATE previous_status SET since_last_full_test = 0 FROM previous_status WHERE id=1;")
+    print("Committing changes")
+    conn.commit
 
 check_status()
 
