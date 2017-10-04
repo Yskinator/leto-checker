@@ -1,7 +1,9 @@
 import time
+import datetime
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import StaleElementReferenceException
 import psycopg2
 import urlparse
 import smtplib
@@ -30,6 +32,27 @@ def send_alert():
                         login      = os.environ["GMAIL_USERNAME"], 
                         password   = os.environ["GMAIL_PASSWORD"])
 
+#For waiting page to load
+def wait_for(condition_function, element):
+    start_time = time.time()
+    while time.time() < start_time + 3:
+        if condition_function(element):
+            return True
+        else:
+            time.sleep(0.1)
+    raise Exception(
+        'Timeout waiting for {}'.format(condition_function.__name__)
+    )
+
+def has_gone_stale(element):
+    try:
+        # Reference to an old element throws an exception when the page changes
+        element.find_elements_by_id('literally_anything') 
+        return False
+    except StaleElementReferenceException:
+        return True
+
+
 def check_status():
     print("Opening browser")
     if 'HEROKU' in os.environ:
@@ -48,8 +71,41 @@ def check_status():
     else:
         print("Page did not load correctly.")
         check_prev_status()
+
+    nick = "Automated test " + str("{:%Y-%m-%d %H:%M:%S}".format(datetime.datetime.now()))
+    print("Typing nickname: " + nick)
+    element = driver.find_element_by_id("meeting_nickname")
+    element.send_keys(nick)
+
+    print("Typing phone number")
+    element = driver.find_element_by_id("meeting_phone_number")
+    element.send_keys("9991231234")
+    
+    print("Typing duration")
+    element = driver.find_element_by_id("duration-input")
+    element.send_keys("1")
+
+    print("Pressing the start button")
+    element = driver.find_element_by_id("startbutton")
+    element.click()
+
+    wait_for(has_gone_stale, element)
+
+    print("Checking that the second page changed correctly by looking for the + 10 minutes button")
+    if ("+ 10" in driver.page_source):
+        print("Page loaded correctly.")
+    else:
+        print("Page did not load correctly.")
+        check_prev_status()
+        return
+
+    print("Pressing the I'm OK button to avoid sending an alert")
+    element = driver.find_element_by_class_name("submitbutton")
+    element.click()
+    
     print("Closing browser")
     driver.quit()
+
 
 def check_prev_status():
     print("Attempting to connect to database")
