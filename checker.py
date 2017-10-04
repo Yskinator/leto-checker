@@ -71,6 +71,7 @@ def check_status():
     else:
         print("Page did not load correctly.")
         check_prev_status()
+        return
 
     nick = "Automated test " + str("{:%Y-%m-%d %H:%M:%S}".format(datetime.datetime.now()))
     print("Typing nickname: " + nick)
