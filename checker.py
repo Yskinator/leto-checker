@@ -47,6 +47,7 @@ def check_status():
         print("Page loaded correctly.")
     else:
         print("Page did not load correctly.")
+        check_prev_status()
     print("Closing browser")
     driver.quit()
 
