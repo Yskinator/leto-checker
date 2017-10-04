@@ -142,8 +142,6 @@ def check_status():
         if (nick.upper() in driver.page_source):
             print("Alert has been received.")
         else:
-            if ("Timed message" in drive.page_source):
-                print("Timed message in confirmed")
             print("Alert has not been received.")
             check_prev_status()
             print("Closing browser")
