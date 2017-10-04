@@ -68,7 +68,7 @@ def check_prev_status():
     cur.execute("SELECT worked FROM previous_status WHERE id=1")
     status = str(cur.fetchone())
     print("Previous status: " + status) 
-    if status == "t":
+    if status == "(True,)":
         print("Uh oh, it stopped working. Updating status")
         cur.execute("UPDATE previous_status SET worked=FALSE WHERE id = 1;")
         print("Committing changes")
