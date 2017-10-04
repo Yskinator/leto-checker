@@ -34,7 +34,6 @@ def send_alert():
 
 #For waiting page to load
 def wait_for(condition_function, element):
-    time.sleep(2)
     start_time = time.time()
     while time.time() < start_time + 3:
         if condition_function(element):
@@ -68,8 +67,8 @@ def check_status():
         driver = webdriver.Chrome()
     print("Opening Artemis' Umbrella")
     driver.get("https://info.artemisumbrella.com")
-    print("Looking for 'Artemi' to see if the page loaded correctly")
-    if ("Artemi" in driver.page_source):
+    print("Looking for 'meeting_phone_number' to see if the page loaded correctly")
+    if ("meeting_phone_number" in driver.page_source):
         print("Page loaded correctly.")
     else:
         print("Page did not load correctly.")
@@ -112,9 +111,11 @@ def check_status():
         element = driver.find_element_by_class_name("submitbutton")
         element.click()
     else:
+        print("Resetting the test counter")
         reset_test_counter()
+        print("Waiting for alert to be sent")
         time.sleep(300)
-	print("An alert has been sent. Clicking the I'm OK button")
+	print("Clicking the I'm OK button")
         element = driver.find_element_by_class_name("submitbutton")
         element.click()
 
