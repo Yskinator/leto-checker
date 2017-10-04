@@ -41,7 +41,7 @@ def check_status():
     else:
         driver = webdriver.Chrome()
     print("Opening Artemis' Umbrella")
-    driver.get("https://staging.artemisumbrella.com")
+    driver.get("https://info.artemisumbrella.com")
     print("Looking for 'Artemi' to see if the page loaded correctly")
     if ("Artemi" in driver.page_source):
         print("Page loaded correctly.")
