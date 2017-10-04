@@ -23,7 +23,7 @@ def sendemail(from_addr, to_addr_list, cc_addr_list,
     server.quit()
 
 
-problems = sendmail(from_addr    = os.environ["GMAIL_USERNAME"], 
+problems = sendemail(from_addr    = os.environ["GMAIL_USERNAME"], 
                     to_addr_list = os.environ["EMAIL_RECEIVER"],
                     subject      = 'Mail from python', 
                     message      = 'A thing has happened. Do another thing.', 
