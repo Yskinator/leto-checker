@@ -107,7 +107,7 @@ def check_status():
         driver.quit()
         return
 
-    if count >= int(os.environ["FULL_TEST_INTERVAL"]):
+    if int(count) < int(os.environ["FULL_TEST_INTERVAL"]):
         print("Pressing the I'm OK button to avoid sending an alert")
         element = driver.find_element_by_class_name("submitbutton")
         element.click()
