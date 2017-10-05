@@ -178,7 +178,7 @@ def check_prev_status():
         conn.commit()
         print("Sending alert email.")
         send_alert()
-    print("Closing connection")
+    print("Closing database connection")
     cur.close()
     conn.close()
 
@@ -202,7 +202,10 @@ def increment_test_counter():
     count = count + 1
     cur.execute("UPDATE previous_status SET since_last_full_test = "+str(count)+" WHERE id=1;")
     print("Committing changes")
-    conn.commit
+    conn.commit()
+    print("Closing database connection")
+    cur.close()
+    conn.close()
     return count
 
 def reset_test_counter():
@@ -221,7 +224,10 @@ def reset_test_counter():
     print("Setting counter to 0")
     cur.execute("UPDATE previous_status SET since_last_full_test = 0 WHERE id=1;")
     print("Committing changes")
-    conn.commit
+    conn.commit()
+    print("Closing database connection")
+    cur.close()
+    conn.close()
 
 check_status()
 
