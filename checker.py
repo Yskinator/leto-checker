@@ -56,6 +56,7 @@ def has_gone_stale(element):
 def check_status():
     print("Incrementing test counter")
     count = increment_test_counter()
+    print("Current count:" + str(count))
     print("Opening browser")
     if 'HEROKU' in os.environ:
         chrome_options = Options()
