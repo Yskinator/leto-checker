@@ -198,7 +198,7 @@ def increment_test_counter():
     print("Fetching previous count")
     cur.execute("SELECT since_last_full_test FROM previous_status WHERE id=1;")
     count = int(cur.fetchone()[0])
-    print("Count: " + count)
+    print("Count: " + str(count))
     print("Increasing counter by one")
     count = count + 1
     cur.execute("UPDATE previous_status SET since_last_full_test = "+str(count)+" WHERE id=1;")
