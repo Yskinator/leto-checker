@@ -137,6 +137,7 @@ def check_status():
         element.click()
 
         wait_for(has_gone_stale, element)
+        time.sleep(2) #Wait a little longer just in case - this seems to cause trouble occasionally
 
         print("Looking for our alert")
 
