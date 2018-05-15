@@ -99,7 +99,7 @@ def check_status():
     time.sleep(2) #Wait a little longer just in case - this seems to cause trouble occasionally
 
     print("Checking that the second page changed correctly by looking for the + 10 minutes button")
-    if ("+ 10" in driver.page_source):
+    if ("+10" in driver.page_source):
         print("Page loaded correctly.")
     else:
         print("Page did not load correctly.")
