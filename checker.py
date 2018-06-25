@@ -7,6 +7,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 import psycopg2
 import urlparse
 import smtplib
+from textmagic.rest import TextmagicRestClient
  
 def sendemail(from_addr, to_addr,
               subject, message,
@@ -25,12 +26,16 @@ def sendemail(from_addr, to_addr,
 
 
 def send_alert():
-    problems = sendemail(from_addr = os.environ["GMAIL_USERNAME"], 
-                        to_addr    = os.environ["EMAIL_RECEIVER"],
-                        subject    = 'Website down', 
-                        message    = 'Fix it!', 
-                        login      = os.environ["GMAIL_USERNAME"], 
-                        password   = os.environ["GMAIL_PASSWORD"])
+    #problems = sendemail(from_addr = os.environ["GMAIL_USERNAME"], 
+    #                    to_addr    = os.environ["EMAIL_RECEIVER"],
+    #                    subject    = 'Website down', 
+    #                    message    = 'Fix it!', 
+    #                    login      = os.environ["GMAIL_USERNAME"], 
+    #                    password   = os.environ["GMAIL_PASSWORD"])
+    username = os.environ["TEXTMAGIC_USERNAME"]
+    token = os.environ["TEXTMAGIC_TOKEN"]
+    client = TextmagicRestClient(username, token)
+    message = client.messages.create(phones=os.environ["ADMIN_PHONE"], text="Leto checker alert!")
 
 #For waiting page to load
 def wait_for(condition_function, element):
