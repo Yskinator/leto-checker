@@ -183,7 +183,7 @@ def check_prev_status():
         cur.execute("UPDATE previous_status SET worked=FALSE WHERE id = 1;")
         print("Committing changes")
         conn.commit()
-        print("Sending alert email.")
+        print("Sending alert message.")
         send_alert()
     print("Closing database connection")
     cur.close()
